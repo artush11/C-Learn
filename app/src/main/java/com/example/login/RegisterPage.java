@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterPage extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword, editTextPasswordVerify;
     Button signUp;
     TextView signIn;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -32,6 +32,7 @@ public class RegisterPage extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
+        editTextPasswordVerify = findViewById(R.id.verifyPassword);
         signIn = findViewById(R.id.sing_in);
         signUp = findViewById(R.id.sing_up);
 
@@ -46,15 +47,24 @@ public class RegisterPage extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, password;
+                String email, password, passwordVerify;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                passwordVerify = String.valueOf(editTextPasswordVerify.getText());
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(RegisterPage.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
                     Toast.makeText(RegisterPage.this,"Enter Password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(passwordVerify)){
+                    Toast.makeText(RegisterPage.this,"Enter password verify", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!password.equals(passwordVerify)){
+                    Toast.makeText(RegisterPage.this,"password verify is wrong", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
